@@ -961,37 +961,33 @@
   });
   langSearch.addEventListener('input', () => renderLangList(langSearch.value));
 
-  function selectLanguage(lang){
-    langBtnLabel.textContent = lang.label.replace(' (original)','');
-    closePanel();
+function selectLanguage(lang) {
+  langBtnLabel.textContent = lang.label.replace(' (original)', '');
+  closePanel();
 
-    if (lang.code === 'es'){
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + location.hostname;
-      location.reload();
-      return;
-    }
-
-    const combo = document.querySelector('.goog-te-combo');
-    if (combo){
-      combo.value = lang.code;
-      combo.dispatchEvent(new Event('change'));
-    } else {
-      // El motor de traducción todavía está cargando: reintenta en un momento
-      let attempts = 0;
-      const retry = setInterval(() => {
-        const c = document.querySelector('.goog-te-combo');
-        attempts++;
-        if (c){
-          c.value = lang.code;
-          c.dispatchEvent(new Event('change'));
-          clearInterval(retry);
-        } else if (attempts > 20){
-          clearInterval(retry);
-        }
-      }, 250);
-    }
+  if (lang.code === 'es') {
+    document.cookie = 'googtrans=/es/es; path=/;';
+    document.cookie = 'googtrans=/es/es; path=/; domain=' + location.hostname;
+    location.reload();
+    return;
   }
+
+  // Guardar idioma seleccionado
+  document.cookie = `googtrans=/es/${lang.code}; path=/;`;
+  document.cookie = `googtrans=/es/${lang.code}; path=/; domain=${location.hostname}`;
+
+  // Intentar cambiar Google Translate directamente
+  const combo = document.querySelector('.goog-te-combo');
+
+  if (combo) {
+    combo.value = lang.code;
+    combo.dispatchEvent(new Event('change'));
+  } else {
+    // Si Google Translate todavía no cargó, recargar.
+    // La cookie hará que cargue con el idioma seleccionado.
+    location.reload();
+  }
+}
 
   function googleTranslateElementInit() {
     new google.translate.TranslateElement(
