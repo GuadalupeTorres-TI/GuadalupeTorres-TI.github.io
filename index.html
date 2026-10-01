@@ -390,6 +390,20 @@ background-attachment: fixed;
   @media (prefers-reduced-motion: reduce){
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
   }
+  /* Presentación y cuadro de código */
+.hero {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+
+.hero > div {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -443,9 +457,19 @@ background-attachment: fixed;
       <div class="hero-cta">
         <a class="btn btn-primary" href="#contact">Contratar mis servicios</a>
         <a class="btn btn-ghost" href="#projects">Ver proyectos</a>
-      </div>
+           </div>
     </div>
-</section>
+
+    <!-- Cuadro de código animado -->
+    <div class="terminal" aria-hidden="true">
+      <div class="term-bar">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+  </section>
     
   <!-- SHOWCASE -->
   <section class="showcase">
